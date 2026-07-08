@@ -55,7 +55,7 @@ public class Customer {
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
-    private List<com.example.demoEcommerce.entity.Order> orders;
+    private List<com.example.demoEcommerce.entities.Order> orders;
 
     @PrePersist
     public void onCreate() {

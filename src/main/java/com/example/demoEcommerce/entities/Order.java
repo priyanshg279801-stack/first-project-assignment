@@ -1,4 +1,4 @@
-package com.example.demoEcommerce.entity;
+package com.example.demoEcommerce.entities;
 
 import com.example.demoEcommerce.entities.Customer;
 import com.example.demoEcommerce.entities.OrderItem;

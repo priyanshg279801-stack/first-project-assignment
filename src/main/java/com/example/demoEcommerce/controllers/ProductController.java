@@ -74,21 +74,16 @@ public class ProductController {
 
     // Search By Product Name
     @GetMapping("/search")
-    public ResponseEntity<List<Product>> searchProducts(
-            @RequestParam String keyword) {
+    public ResponseEntity<List<Product>> searchProducts(@RequestParam String keyword) {
 
-        return ResponseEntity.ok(
-                productService.searchProducts(keyword));
+        return ResponseEntity.ok(productService.searchProducts(keyword));
     }
 
     // Increase Stock
     @PatchMapping("/{id}/increase-stock")
-    public ResponseEntity<Product> increaseStock(
-            @PathVariable Long id,
-            @RequestParam Integer quantity) {
+    public ResponseEntity<Product> increaseStock(@PathVariable Long id, @RequestParam Integer quantity) {
 
-        return ResponseEntity.ok(
-                productService.increaseStock(id, quantity));
+        return ResponseEntity.ok(productService.increaseStock(id, quantity));
     }
 
     // Decrease Stock
@@ -97,7 +92,6 @@ public class ProductController {
             @PathVariable Long id,
             @RequestParam Integer quantity) {
 
-        return ResponseEntity.ok(
-                productService.decreaseStock(id, quantity));
+        return ResponseEntity.ok(productService.decreaseStock(id, quantity));
     }
 }

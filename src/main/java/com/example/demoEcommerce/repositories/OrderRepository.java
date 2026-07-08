@@ -1,6 +1,6 @@
 package com.example.demoEcommerce.repositories;
 
-import com.example.demoEcommerce.entity.Order;
+import com.example.demoEcommerce.entities.Order;
 
 import com.example.demoEcommerce.status.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;

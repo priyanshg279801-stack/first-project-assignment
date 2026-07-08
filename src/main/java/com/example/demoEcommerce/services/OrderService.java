@@ -1,13 +1,17 @@
 package com.example.demoEcommerce.services;
+import com.example.demoEcommerce.events.OrderCreatedEvent;
+import com.example.demoEcommerce.producers.OrderProducer;
 
 import com.example.demoEcommerce.dto.OrderItemRequest;
 import com.example.demoEcommerce.dto.OrderRequest;
 import com.example.demoEcommerce.entities.Customer;
 import com.example.demoEcommerce.entities.OrderItem;
 import com.example.demoEcommerce.entities.Product;
-import com.example.demoEcommerce.entity.Order;
+import com.example.demoEcommerce.entities.Order;
+import com.example.demoEcommerce.events.OrderCreatedEvent;
 import com.example.demoEcommerce.exceptions.InsufficientStockException;
 import com.example.demoEcommerce.exceptions.ResourceNotFoundException;
+import com.example.demoEcommerce.producers.OrderProducer;
 import com.example.demoEcommerce.repositories.CustomerRepository;
 import com.example.demoEcommerce.repositories.OrderRepository;
 import com.example.demoEcommerce.repositories.ProductRepository;
@@ -31,6 +35,8 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final CustomerRepository customerRepository;
+
+    private final OrderProducer orderProducer;
 
     /**
      * Create a new order (atomic transaction)
@@ -93,7 +99,14 @@ public class OrderService {
 
         Order savedOrder = orderRepository.save(order);
 
-        log.info("Order created successfully with id: {}", savedOrder.getOrderId());
+        OrderCreatedEvent event = OrderCreatedEvent.builder()
+                .orderId(savedOrder.getOrderId())
+                .customerId(savedOrder.getCustomer().getCustomerId())
+                .totalAmount(savedOrder.getTotalAmount())
+                .status(savedOrder.getStatus())
+                .build();
+
+        orderProducer.publishOrderCreatedEvent(event);
 
         return savedOrder;
     }
